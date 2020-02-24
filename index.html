@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+    <script src="main.js" defer></script>
+
+    <title>Quiz in Vue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Indie dumb quiz</h1>
+        <p>Some dumb indie questions</p>
+        <form>
+            <section v-for="question in questions">
+                <h2>{{ question.prompt }}</h2>
+                <ol>
+                    <!-- The class binding adds the class if the expression is true, otherwise omits it. -->
+                    <li v-for="option in question.options" v-bind:class="{ correct: question.answer === option }">
+                        <input type="radio" v-bind:name="questionId(question)" v-bind:id="optionId(question, option)" v-bind:disabled="question.guess !== null" v-on:change="makeGuess(question, option)">
+                        <label v-bind:for="optionId(question, option)">{{ option }}</label>
+                    </li>
+                </ol>
+            </section>
+        </form>
+        <!-- only show after quest are answerd-->
+        <section id="result" v-if="!questionsRemain">
+            <p>Final score:
+                <output id="result-score">
+                    {{ score }} / {{ questions.length }}
+                </output>
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
